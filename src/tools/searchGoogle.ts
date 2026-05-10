@@ -1,6 +1,6 @@
 import { MultiSearchResponse, SearchOptions } from "../types/index.js";
 import { multiGoogleSearch } from "../services/googleSearch.js";
-import { isDebugMode } from "../index.js";
+import { isDebugMode, stateDir } from "../index.js";
 import { logger } from "../utils/logger.js";
 
 /**
@@ -65,7 +65,8 @@ export async function searchGoogle(args: any) {
     timeout: Number(args?.timeout) || 60000,
     noSaveState: args?.noSaveState === true,
     locale: String(args?.locale || "en-US"),
-    debug: args?.debug !== undefined ? args?.debug : isDebugMode // Use tool param if provided, otherwise use command line flag
+    debug: args?.debug !== undefined ? args?.debug : isDebugMode, // Use tool param if provided, otherwise use command line flag
+    stateFile: `${stateDir}/browser-state.json`,
   };
 
   // Log search parameters

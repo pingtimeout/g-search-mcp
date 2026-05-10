@@ -1052,11 +1052,10 @@ export async function multiGoogleSearch(
     // Create a unique state file for each query to avoid conflicts
     const searches = await Promise.all(
       queries.map((query, index) => {
+        const base = options.stateFile?.replace(/\.json$/, "") ?? `./browser-state`;
         const searchOptions = {
           ...options,
-          stateFile: options.stateFile 
-            ? `${options.stateFile}-${index}`
-            : `./browser-state-${index}.json`,
+          stateFile: `${base}-${index}.json`,
         };
         
         logger.info(`[MultiSearch] Starting search #${index + 1} for query: "${query}"`);

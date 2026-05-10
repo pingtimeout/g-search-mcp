@@ -5,12 +5,23 @@
  * Provides functionality to search on Google with multiple keywords
  */
 
+import { homedir } from "node:os";
+import { join } from "node:path";
+
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { createServer } from "./server.js";
 import { logger } from "./utils/logger.js";
 
 // Parse command line arguments, check for debug flag
 export const isDebugMode = process.argv.includes("--debug");
+
+function parseArg(name: string): string | undefined {
+  const idx = process.argv.indexOf(name);
+  return idx !== -1 ? process.argv[idx + 1] : undefined;
+}
+
+const defaultStateDir = join(homedir(), ".local", "share", "g-search-mcp");
+export const stateDir = parseArg("--state-dir") ?? defaultStateDir;
 
 /**
  * Start the server
