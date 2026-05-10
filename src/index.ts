@@ -23,6 +23,28 @@ function parseArg(name: string): string | undefined {
 const defaultStateDir = join(homedir(), ".local", "share", "g-search-mcp");
 export const stateDir = parseArg("--state-dir") ?? defaultStateDir;
 
+function printHelp(): void {
+  const help = [
+    "Usage: g-search-mcp [options]",
+    "",
+    "MCP server for Google search using Playwright headless browser",
+    "",
+    "Options:",
+    "  -h, --help          Show this help message",
+    "  --debug             Enable debug mode (shows Chrome browser window)",
+    "  --log               Enable verbose logging to stderr",
+    "  --state-dir <path>  Directory for browser state persistence (default: ~/.local/share/g-search-mcp)",
+    "",
+  ];
+  process.stdout.write(help.join("\n"));
+  process.exit(0);
+}
+
+// Handle --help / -h before starting the server
+if (process.argv.includes("--help") || process.argv.includes("-h")) {
+  printHelp();
+}
+
 /**
  * Start the server
  */
